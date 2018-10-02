@@ -52,6 +52,8 @@ class ProfesionalVinculado {
 		caja = (horas / 2) * self.honorariosPorHora()
 		universidad.recibirDonacion((horas / 2) * self.honorariosPorHora())
 	}
+	
+	method caja() = caja
 
 }
 
@@ -83,5 +85,6 @@ class ProfesionalLibre {
 		profesional.recibirDonacion(cantidad)
 	}
 
+	method caja() = caja
 }
 

@@ -1,10 +1,12 @@
 object asociacionDeProfesionales {
 
-	var totalRecaudado
+	var totalRecaudado = 0
 
 	method recibirDonacion(cantidad) {
 		totalRecaudado += cantidad
 	}
+	
+	method totalRecaudado() = totalRecaudado
 
 }
 

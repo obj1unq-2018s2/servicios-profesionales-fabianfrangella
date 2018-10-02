@@ -1,6 +1,7 @@
 import profesionales.*
 import universidades.*
 import empresas.*
+import asociacionDeProfesionales.*
 
 describe "Test profesionales" {
 
@@ -24,32 +25,19 @@ describe "Test profesionales" {
 		ibm.contratar(melina)
 	}
 
-	test "profesionales caros" {
-		assert.that(ibm.profesionalesCaros() == #{ rocio })
+	test"profesional vinculado cobra" {
+		juana.cobrar(20)
+		assert.that(juana.caja() == uRosario.donaciones())
 	}
 
-	test "universidades formadoras" {
-		assert.that(ibm.universidadesFormadoras() == #{ uRosario, uhurlingham, uCorrientes })
+	test "profesional asociado cobra" {
+		melina.cobrar(20)
+		assert.equals(asociacionDeProfesionales.totalRecaudado() == 2)
 	}
-
-	test "profesional mas barato" {
-		assert.that(ibm.profesionalMasBarato() == juana)
-	}
-
-	test "provincias cubiertas" {
-		assert.that(ibm.provinciaEstaCubierta('Santa Fe'))
-		assert.that(ibm.provinciaEstaCubierta('Cordoba'))
-		assert.that(!ibm.provinciaEstaCubierta('Misiones'))
-	}
-
-	test "profesionales estudiaron en" {
-		assert.that(ibm.cuantosEstudiaronEn(uRosario) == 2)
-		assert.that(ibm.cuantosEstudiaronEn(uhurlingham) == 1)
-		assert.that(ibm.cuantosEstudiaronEn(uSanMartin) == 0)
-	}
-
-	test "es poco atractivo" {
-		assert.that(ibm.esPocoAtractivo(luciana))
+	
+	test "profesional libre cobra"{
+		luciana.cobrar(20)
+		assert.that(luciana.caja()==20*luciana.honorariosPorHora())
 	}
 
 }
