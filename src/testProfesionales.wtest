@@ -1,0 +1,56 @@
+import profesionales.*
+import universidades.*
+import empresas.*
+
+describe "Test profesionales" {
+
+	// Universidades 
+	var uSanMartin = new Universidad(provincia = 'Buenos Aires', honorarios = 3500)
+	var uRosario = new Universidad(provincia = 'Santa Fe', honorarios = 2800)
+	var uCorrientes = new Universidad(provincia = 'Corrientes', honorarios = 4200)
+	var uhurlingham = new Universidad(provincia = 'Buenos Aires', honorarios = 8800)
+	// Profesionales
+	var juana = new ProfesionalVinculado(universidad = uRosario)
+	var melina = new ProfesionalAsociado(universidad = uCorrientes)
+	var rocio = new ProfesionalLibre(universidad = uhurlingham, honorariosPorHora = 5000, provinciasDondePuedeTrabajar = #{ 'Santa Fe', 'Cordoba', 'BuenosAires' })
+	var luciana = new ProfesionalLibre(universidad = uRosario, honorariosPorHora = 3200, provinciasDondePuedeTrabajar = #{ 'Santa Fe', 'Entre Rios' })
+	// Empresa
+	var ibm = new Empresa(honorarioDeReferencia = 3500)
+
+	fixture {
+		ibm.contratar(rocio)
+		ibm.contratar(juana)
+		ibm.contratar(luciana)
+		ibm.contratar(melina)
+	}
+
+	test "profesionales caros" {
+		assert.that(ibm.profesionalesCaros() == #{ rocio })
+	}
+
+	test "universidades formadoras" {
+		assert.that(ibm.universidadesFormadoras() == #{ uRosario, uhurlingham, uCorrientes })
+	}
+
+	test "profesional mas barato" {
+		assert.that(ibm.profesionalMasBarato() == juana)
+	}
+
+	test "provincias cubiertas" {
+		assert.that(ibm.provinciaEstaCubierta('Santa Fe'))
+		assert.that(ibm.provinciaEstaCubierta('Cordoba'))
+		assert.that(!ibm.provinciaEstaCubierta('Misiones'))
+	}
+
+	test "profesionales estudiaron en" {
+		assert.that(ibm.cuantosEstudiaronEn(uRosario) == 2)
+		assert.that(ibm.cuantosEstudiaronEn(uhurlingham) == 1)
+		assert.that(ibm.cuantosEstudiaronEn(uSanMartin) == 0)
+	}
+	
+	test "es poco atractivo"{
+		assert.that(ibm.esPocoAtractivo(luciana))
+	}
+
+}
+

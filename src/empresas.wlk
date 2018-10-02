@@ -22,10 +22,10 @@ class Empresa {
 	method cuantosEstudiaronEn(universidad) = empleados.filter{ empleado => empleado.universidad() == universidad }.size()
 
 	method esPocoAtractivo(profesional) {
-		profesional.provinciasDondePuedeTrabajar().any{ 
-			provincia => self.provinciaEstaCubierta(provincia)}.any{
-				empleado => empleado.honorariosPorHora() < profesional.honorariosPorHora()
-			}
+		return
+		 empleados.any{ empleado => empleado.honorariosPorHora() < profesional.honorariosPorHora() 
+			&& empleado.provinciasDondePuedeTrabajar().difference(profesional.provinciasDondePuedeTrabajar()) !=empleado.provinciasDondePuedeTrabajar()
+		}
 	}
 
 }
