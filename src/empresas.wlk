@@ -1,7 +1,15 @@
+import solicitantes.*
+
 class Empresa {
 
 	var empleados = #{}
 	var honorarioDeReferencia
+	var clientes = #{}
+	var horasServicio
+
+	method horasServicio() = horasServicio
+
+	method clientes() = clientes
 
 	method honorarioDeReferencia() = honorarioDeReferencia
 
@@ -22,11 +30,24 @@ class Empresa {
 	method cuantosEstudiaronEn(universidad) = empleados.filter{ empleado => empleado.universidad() == universidad }.size()
 
 	method esPocoAtractivo(profesional) {
-		return
-		 empleados.any{ empleado => empleado.honorariosPorHora() < profesional.honorariosPorHora() 
-			&& empleado.provinciasDondePuedeTrabajar().difference(profesional.provinciasDondePuedeTrabajar()) !=empleado.provinciasDondePuedeTrabajar()
+		return empleados.any{ empleado => empleado.honorariosPorHora() < profesional.honorariosPorHora() && empleado.provinciasDondePuedeTrabajar().difference(profesional.provinciasDondePuedeTrabajar()) != empleado.provinciasDondePuedeTrabajar() }
+	}
+
+	method darServicio(solicitante) {
+		if (self.puedenAtender(solicitante).isEmpty()) {
+			self.error("nadie puede atender al solicitante")
+		} else {
+			self.puedenAtender(solicitante).first().cobrar(self.horasServicio())
+			clientes.add(solicitante)
+			
 		}
 	}
+
+	method puedenAtender(solicitante) = empleados.filter{ empleado => solicitante.puedeSerAtendido(empleado) }
+	
+	method cantidadDeClientes() = clientes.size()
+	
+	method tieneComoCliente(cliente) = clientes.contains(cliente)
 
 }
 

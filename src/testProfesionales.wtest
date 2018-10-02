@@ -15,7 +15,7 @@ describe "Test profesionales" {
 	var rocio = new ProfesionalLibre(universidad = uhurlingham, honorariosPorHora = 5000, provinciasDondePuedeTrabajar = #{ 'Santa Fe', 'Cordoba', 'BuenosAires' }, caja = 0)
 	var luciana = new ProfesionalLibre(universidad = uRosario, honorariosPorHora = 3200, provinciasDondePuedeTrabajar = #{ 'Santa Fe', 'Entre Rios' }, caja = 0)
 	// Empresa
-	var ibm = new Empresa(honorarioDeReferencia = 3500)
+	var ibm = new Empresa(honorarioDeReferencia = 3500, horasServicio = 5)
 
 	fixture {
 		ibm.contratar(rocio)
