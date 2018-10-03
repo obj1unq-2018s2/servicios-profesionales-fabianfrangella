@@ -83,6 +83,7 @@ class ProfesionalLibre {
 
 	method pasarDinero(profesional, cantidad) {
 		profesional.recibirDonacion(cantidad)
+		caja-=cantidad
 	}
 
 	method caja() = caja
