@@ -30,7 +30,9 @@ class Empresa {
 	method cuantosEstudiaronEn(universidad) = empleados.filter{ empleado => empleado.universidad() == universidad }.size()
 
 	method esPocoAtractivo(profesional) {
-		return empleados.any{ empleado => empleado.honorariosPorHora() < profesional.honorariosPorHora() && empleado.provinciasDondePuedeTrabajar().difference(profesional.provinciasDondePuedeTrabajar()) != empleado.provinciasDondePuedeTrabajar() }
+		return empleados.any{ empleado => empleado.honorariosPorHora() < profesional.honorariosPorHora()
+			&& empleado.provinciasDondePuedeTrabajar().difference(profesional.provinciasDondePuedeTrabajar()) != empleado.provinciasDondePuedeTrabajar()
+		}
 	}
 
 	method darServicio(solicitante) {
