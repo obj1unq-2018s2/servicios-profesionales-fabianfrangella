@@ -34,10 +34,10 @@ class Empresa {
 	}
 
 	method darServicio(solicitante) {
-		if (self.puedenAtender(solicitante).isEmpty()) {
+		if (!empleados.any{empleado=>solicitante.puedeSerAtendido(empleado)}) {
 			self.error("nadie puede atender al solicitante")
 		} else {
-			self.puedenAtender(solicitante).first().cobrar(self.horasServicio())
+			self.puedenAtender(solicitante).anyOne().cobrar(horasServicio)
 			clientes.add(solicitante)
 			
 		}

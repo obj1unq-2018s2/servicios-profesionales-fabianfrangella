@@ -1,0 +1,52 @@
+import profesionales.*
+import universidades.*
+import empresas.*
+import asociacionDeProfesionales.*
+import solicitantes.*
+
+describe "Test profesionales" {
+
+	// Universidades 
+	var uSanMartin = new Universidad(provincia = 'Buenos Aires', honorarios = 3500, donaciones = 0)
+	var uRosario = new Universidad(provincia = 'Santa Fe', honorarios = 2800, donaciones = 0)
+	var uCorrientes = new Universidad(provincia = 'Corrientes', honorarios = 4200, donaciones = 0)
+	var uhurlingham = new Universidad(provincia = 'Buenos Aires', honorarios = 8800, donaciones = 0)
+	// Profesionales
+	var juana = new ProfesionalVinculado(universidad = uRosario, caja = 0)
+	var melina = new ProfesionalAsociado(universidad = uCorrientes)
+	var rocio = new ProfesionalLibre(universidad = uhurlingham, honorariosPorHora = 5000, provinciasDondePuedeTrabajar = #{ 'Santa Fe', 'Cordoba', 'BuenosAires' }, caja = 0)
+	var luciana = new ProfesionalLibre(universidad = uRosario, honorariosPorHora = 3200, provinciasDondePuedeTrabajar = #{ 'Santa Fe', 'Entre Rios' }, caja = 0)
+	// Empresa
+	var ibm = new Empresa(honorarioDeReferencia = 3500, horasServicio = 5)
+	var laMejor = new Persona(provincia = 'Santa Fe')
+	var afip = new Institucion(universidades = #{ uSanMartin, uRosario, uCorrientes })
+
+	fixture {
+		ibm.contratar(rocio)
+		ibm.contratar(melina)
+	}
+
+	test "puede atender los servicios que pide afip" {
+		assert.that(afip.puedeSerAtendido(melina))
+	}
+	
+	test "puede atender los servicios de laMejor"{
+		assert.that(laMejor.puedeSerAtendido(rocio))
+	}
+	
+	test "ibm da servicios"{
+		ibm.darServicio(afip)
+		ibm.darServicio(laMejor)
+		assert.that(ibm.tieneComoCliente(afip))
+		assert.that(ibm.tieneComoCliente(laMejor))
+		assert.that(ibm.cantidadDeClientes()==2)
+
+	}
+	
+	test "empleado cobra luego de dar servicio"{
+		ibm.darServicio(afip)
+		assert.equals(asociacionDeProfesionales.totalRecaudado(),15000)
+	}
+
+}
+
